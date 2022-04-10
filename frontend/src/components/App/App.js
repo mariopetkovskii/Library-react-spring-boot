@@ -10,6 +10,7 @@ import Countries from "../Countries/countries";
 import LibraryService from "../../repository/libraryRepository";
 import Authors from "../Authors/authors";
 import Books from "../Books/books";
+import Header from "../Header/header";
 
 class App extends Component {
     constructor(props) {
@@ -24,13 +25,14 @@ class App extends Component {
     render() {
         return (
             <main>
+                <Header/>
                 <div className="container">
                     <Routes>
                         <Route path="/countries" exact element={<Countries countries={this.state.countries}/>}/>
                         <Route path="/authors" exact element={<Authors authors={this.state.authors}/>}/>
                         <Route path="/books" exact element={<Books books={this.state.books}/>}/>
+                        <Route path="/" element={<Navigate to={"/books"}/>}/>
                     </Routes>
-
                 </div>
             </main>
         )
