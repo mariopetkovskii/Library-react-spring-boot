@@ -4,6 +4,8 @@ import com.example.library.model.Author;
 import com.example.library.model.Book;
 import com.example.library.model.Category;
 import com.example.library.model.dto.BookDto;
+import com.example.library.model.exception.DefaultException;
+import com.example.library.repository.AuthorRepository;
 import com.example.library.repository.BookRepository;
 import com.example.library.service.BookService;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     @Override
@@ -42,6 +46,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<Book> save(BookDto bookDto) {
-        return Optional.of(this.bookRepository.save(new Book(bookDto.getName(),bookDto.getCategory(), bookDto.getAuthor(), bookDto.getAvailableCopies())));
+        Author author = authorRepository.findById(bookDto.getAuthor())
+                .orElseThrow(() -> new DefaultException("Author was not found!"));
+        return Optional.of(this.bookRepository.save(new Book(bookDto.getName(), bookDto.getCategory(), author, bookDto.getAvailableCopies())));
+    }
+
+    @Override
+    public Optional<Book> markAsTaken(Long id) {
+        Book book = this.bookRepository.findById(id)
+                .orElseThrow(() -> new DefaultException("Book was not found!"));
+        Integer availableCopies = book.getAvailableCopies();
+        availableCopies -= 1;
+        book.setAvailableCopies(availableCopies);
+        return Optional.of(this.bookRepository.save(book));
     }
 }

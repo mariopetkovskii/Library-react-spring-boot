@@ -11,6 +11,7 @@ import LibraryService from "../../repository/libraryRepository";
 import Authors from "../Authors/authors";
 import Books from "../Books/books";
 import Header from "../Header/header";
+import BookAdd from "../Books/BookAdd/BookAdd";
 
 class App extends Component {
     constructor(props) {
@@ -18,7 +19,9 @@ class App extends Component {
         this.state = {
             countries: [],
             authors: [],
-            books: []
+            books: [],
+            categories: [],
+            selectedBook: {}
         }
     }
 
@@ -30,7 +33,12 @@ class App extends Component {
                     <Routes>
                         <Route path="/countries" exact element={<Countries countries={this.state.countries}/>}/>
                         <Route path="/authors" exact element={<Authors authors={this.state.authors}/>}/>
-                        <Route path="/books" exact element={<Books books={this.state.books}/>}/>
+                        <Route path="/books/add" exact element={<BookAdd categories={this.state.categories}
+                                                                         authors={this.state.authors}
+                                                                         onAddBook={this.addBook}/>}/>
+                        <Route path="/books" exact element={<Books books={this.state.books}
+                                                                    onDelete={this.deleteBook}
+                                                                    markAsTaken={this.markAsTaken}/>}/>
                         <Route path="/" element={<Navigate to={"/books"}/>}/>
                     </Routes>
                 </div>
@@ -65,10 +73,41 @@ class App extends Component {
             });
     }
 
+    loadCategories = () => {
+        LibraryService.fetchCategories()
+            .then((data)=>{
+                this.setState({
+                    categories: data.data
+                })
+            })
+    }
+
+    deleteBook = (id) => {
+        LibraryService.deleteBook(id)
+            .then(() => {
+               this.loadBooks();
+            });
+    }
+
+    addBook = (name, category, author, availableCopies) => {
+        LibraryService.addBook(name, category, author, availableCopies)
+            .then(() => {
+                this.loadBooks();
+            })
+    }
+
+    markAsTaken = (id) => {
+        LibraryService.markAsTaken(id)
+            .then(() => {
+                this.loadBooks();
+            });
+    }
+
     componentDidMount() {
         this.loadCountries();
         this.loadAuthors();
         this.loadBooks();
+        this.loadCategories();
     }
 
 

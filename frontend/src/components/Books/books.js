@@ -1,4 +1,6 @@
 import React from "react";
+import BookTerm from "./BookTerm/bookTerm";
+import {Link} from 'react-router-dom';
 
 const books = (props) => {
     return (
@@ -15,18 +17,17 @@ const books = (props) => {
                         </tr>
                         </thead>
                         <tbody>
-                        {props.books.map((term)=>{
-                            return(
-                                <tr key={term.id}>
-                                    <td>{term.name}</td>
-                                    <td>{term.category}</td>
-                                    <td>{term.author.name + " " + term.author.surname}</td>
-                                    <td>{term.availableCopies}</td>
-                                </tr>
+                        {props.books.map((term) => {
+                            return (
+                                <BookTerm term={term} onDelete={props.onDelete}
+                                                        markAsTaken={props.markAsTaken}/>
                             );
                         })}
                         </tbody>
                     </table>
+                    <div className={"d-flex justify-content-center"}>
+                        <Link className={"btn btn-success"} to={"/books/add"}>Add a new book</Link>
+                    </div>
                 </div>
             </div>
         </div>

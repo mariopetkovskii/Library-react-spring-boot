@@ -1,9 +1,7 @@
 package com.example.library.web.rest;
 
 
-import com.example.library.model.Author;
 import com.example.library.model.Book;
-import com.example.library.model.dto.AuthorDto;
 import com.example.library.model.dto.BookDto;
 import com.example.library.service.BookService;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +39,20 @@ public class BookRestController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
+    @PutMapping("/mark/{id}")
+    public ResponseEntity<Book> markAsTaken(@PathVariable Long id){
+        return bookService.markAsTaken(id)
+                .map(book -> ResponseEntity.ok().body(book))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {
         this.bookService.deleteById(id);
         if(this.bookService.findById(id).isEmpty()) return ResponseEntity.ok().build();
         return ResponseEntity.badRequest().build();
     }
+
+
 
 }
