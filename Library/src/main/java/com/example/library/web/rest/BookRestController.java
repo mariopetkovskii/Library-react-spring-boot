@@ -53,6 +53,13 @@ public class BookRestController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PutMapping("/edit/{id}")
+    ResponseEntity<Book> editBook(@PathVariable Long id, @RequestBody BookDto bookDto){
+        return bookService.edit(id, bookDto)
+                .map(book -> ResponseEntity.ok().body(book))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
 
 
 }

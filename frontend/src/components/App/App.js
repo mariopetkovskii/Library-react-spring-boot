@@ -12,6 +12,7 @@ import Authors from "../Authors/authors";
 import Books from "../Books/books";
 import Header from "../Header/header";
 import BookAdd from "../Books/BookAdd/BookAdd";
+import BookEdit from "../Books/BookEdit/BookEdit";
 
 class App extends Component {
     constructor(props) {
@@ -36,9 +37,14 @@ class App extends Component {
                         <Route path="/books/add" exact element={<BookAdd categories={this.state.categories}
                                                                          authors={this.state.authors}
                                                                          onAddBook={this.addBook}/>}/>
+                        <Route path="/books/edit/:id" exact element={<BookEdit categories={this.state.categories}
+                                                                               authors={this.state.authors}
+                                                                               onEditBook={this.editBook}
+                                                                               book={this.state.selectedBook}/>}/>
                         <Route path="/books" exact element={<Books books={this.state.books}
                                                                     onDelete={this.deleteBook}
-                                                                    markAsTaken={this.markAsTaken}/>}/>
+                                                                    markAsTaken={this.markAsTaken}
+                                                                    onEdit={this.getBook}/>}/>
                         <Route path="/" element={<Navigate to={"/books"}/>}/>
                     </Routes>
                 </div>
@@ -93,6 +99,22 @@ class App extends Component {
         LibraryService.addBook(name, category, author, availableCopies)
             .then(() => {
                 this.loadBooks();
+            })
+    }
+
+    editBook = (id, name, category, author, availableCopies) => {
+        LibraryService.editBook(id, name, category, author, availableCopies)
+            .then(() => {
+                this.loadBooks();
+            });
+    }
+
+    getBook = (id) => {
+        LibraryService.getBook(id)
+            .then((data) => {
+                this.setState({
+                    selectedBook: data.data
+                })
             })
     }
 

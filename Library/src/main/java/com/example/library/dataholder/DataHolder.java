@@ -43,14 +43,18 @@ public class DataHolder {
 
         Author author1 = new Author("Miguel", "De Cervantes", country1);
         Author author2 = new Author("Edgar", "Allan poe", country3);
+        Author author3 = new Author("Mario", "Petkovski", country2);
 
         this.authorRepository.save(author1);
         this.authorRepository.save(author2);
+        this.authorRepository.save(author3);
 
         Book book1 = new Book("The Raven", Category.CLASSICS, author2, 10);
         Book book2 = new Book("Don Quixote", Category.NOVEL, author1, 15);
+        Book book3 = new Book("Web Programming", Category.CLASSICS, author3, 500);
 
         this.bookRepository.save(book1);
         this.bookRepository.save(book2);
+        this.bookRepository.save(book3);
     }
 }
