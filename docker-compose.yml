@@ -1,0 +1,14 @@
+version: "3"
+services:
+  backend:
+    image: "backend-library"
+    container_name: "backend_library"
+    ports:
+      - "8080:8080"
+  frontend:
+    image: "frontend-library"
+    container_name: "frontend_library"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend

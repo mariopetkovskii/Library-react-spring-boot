@@ -62,6 +62,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>backend-library</finalName>
     </build>
 
 </project>
