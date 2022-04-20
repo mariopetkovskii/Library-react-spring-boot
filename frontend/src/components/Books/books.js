@@ -11,7 +11,7 @@ class Books extends React.Component {
 
         this.state = {
             page: 0,
-            size: 2
+            size: 5
         }
     }
 
