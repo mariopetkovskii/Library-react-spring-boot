@@ -13,6 +13,7 @@ import Books from "../Books/books";
 import Header from "../Header/header";
 import BookAdd from "../Books/BookAdd/BookAdd";
 import BookEdit from "../Books/BookEdit/BookEdit";
+import Categories from "../Categories/categories";
 
 class App extends Component {
     constructor(props) {
@@ -34,6 +35,7 @@ class App extends Component {
                     <Routes>
                         <Route path="/countries" exact element={<Countries countries={this.state.countries}/>}/>
                         <Route path="/authors" exact element={<Authors authors={this.state.authors}/>}/>
+                        <Route path="/categories" exact element={<Categories categories={this.state.categories}/>}/>
                         <Route path="/books/add" exact element={<BookAdd categories={this.state.categories}
                                                                          authors={this.state.authors}
                                                                          onAddBook={this.addBook}/>}/>
