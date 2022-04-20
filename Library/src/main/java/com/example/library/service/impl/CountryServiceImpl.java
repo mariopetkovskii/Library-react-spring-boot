@@ -1,13 +1,9 @@
 package com.example.library.service.impl;
 
 import com.example.library.model.Country;
-import com.example.library.model.dto.CountryDto;
 import com.example.library.repository.CountryRepository;
 import com.example.library.service.CountryService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,19 +27,6 @@ public class CountryServiceImpl implements CountryService {
         return this.countryRepository.findById(id);
     }
 
-    @Override
-    public Optional<Country> addCountry(String name, String continent) {
-        return Optional.of(this.countryRepository.save(new Country(name, continent)));
-    }
 
-    @Override
-    public void deleteById(Long id) {
-        this.countryRepository.deleteById(id);
-    }
-
-    @Override
-    public Optional<Country> save(CountryDto countryDto) {
-        return Optional.of(this.countryRepository.save(new Country(countryDto.getName(), countryDto.getContinent())));
-    }
 
 }

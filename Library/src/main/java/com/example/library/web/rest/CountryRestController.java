@@ -2,7 +2,6 @@ package com.example.library.web.rest;
 
 
 import com.example.library.model.Country;
-import com.example.library.model.dto.CountryDto;
 import com.example.library.service.CountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,19 +29,5 @@ public class CountryRestController {
         return this.countryService.findById(id)
                 .map(country -> ResponseEntity.ok().body(country))
                 .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<Country> save(@RequestBody CountryDto countryDto) {
-        return this.countryService.save(countryDto)
-                .map(country -> ResponseEntity.ok().body(country))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteById(@PathVariable Long id) {
-        this.countryService.deleteById(id);
-        if(this.countryService.findById(id).isEmpty()) return ResponseEntity.ok().build();
-        return ResponseEntity.badRequest().build();
     }
 }

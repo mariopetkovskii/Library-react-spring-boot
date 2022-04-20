@@ -47,15 +47,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<Book> save(BookDto bookDto) {
         Author author = authorRepository.findById(bookDto.getAuthor())
-                .orElseThrow(() -> new DefaultException("Author was not found!"));
+                .orElseThrow(() -> new DefaultException("Author does not exist!"));
         return Optional.of(this.bookRepository.save(new Book(bookDto.getName(), bookDto.getCategory(), author, bookDto.getAvailableCopies())));
     }
 
     @Override
     public Optional<Book> edit(Long id, BookDto bookDto) {
-        Book book = this.bookRepository.findById(id).orElseThrow(() -> new DefaultException("Book was not found!"));
+        Book book = this.bookRepository.findById(id).orElseThrow(() -> new DefaultException("Book does not exist!"));
         book.setAvailableCopies(bookDto.getAvailableCopies());
-        Author author = this.authorRepository.findById(bookDto.getAuthor()).orElseThrow(() -> new DefaultException("Author was not found!"));
+        Author author = this.authorRepository.findById(bookDto.getAuthor()).orElseThrow(() -> new DefaultException("Author does not exist!"));
         book.setAuthor(author);
         Category category = Category.valueOf(bookDto.getCategory().toString());
         book.setCategory(category);
@@ -66,8 +66,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<Book> markAsTaken(Long id) {
         Book book = this.bookRepository.findById(id)
-                .orElseThrow(() -> new DefaultException("Book was not found!"));
+                .orElseThrow(() -> new DefaultException("Book does not exist!"));
         Integer availableCopies = book.getAvailableCopies();
+        if(availableCopies == 0){
+            throw new DefaultException("This book has no more copies");
+        }
         availableCopies -= 1;
         book.setAvailableCopies(availableCopies);
         return Optional.of(this.bookRepository.save(book));

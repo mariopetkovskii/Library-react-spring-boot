@@ -1,9 +1,6 @@
 package com.example.library.service.impl;
 
 import com.example.library.model.Author;
-import com.example.library.model.Country;
-import com.example.library.model.dto.AuthorDto;
-import com.example.library.model.exception.DefaultException;
 import com.example.library.repository.AuthorRepository;
 import com.example.library.repository.CountryRepository;
 import com.example.library.service.AuthorService;
@@ -33,18 +30,5 @@ public class AuthorServiceImpl implements AuthorService {
         return this.authorRepository.findById(id);
     }
 
-    @Override
-    public Optional<Author> addAuthor(String name, String surname, Country country) {
-        return Optional.of(this.authorRepository.save(new Author(name, surname, country)));
-    }
 
-    @Override
-    public void deleteById(Long id) {
-        this.authorRepository.deleteById(id);
-    }
-
-    @Override
-    public Optional<Author> save(AuthorDto authorDto) {
-        return Optional.of(this.authorRepository.save(new Author(authorDto.getName(), authorDto.getSurname(), authorDto.getCountry())));
-    }
 }
