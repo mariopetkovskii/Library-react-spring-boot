@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://library-frontend-react.herokuapp.com/")
 @RequestMapping("/api/books")
 public class BookRestController {
 
@@ -49,7 +49,7 @@ public class BookRestController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {
         this.bookService.deleteById(id);
-        if(this.bookService.findById(id).isEmpty()) return ResponseEntity.ok().build();
+        if(!this.bookService.findById(id).isPresent()) return ResponseEntity.ok().build();
         return ResponseEntity.badRequest().build();
     }
 
