@@ -56,10 +56,10 @@ public class DataHolder {
         Book book1 = new Book("The Raven", Category.CLASSICS, author2, 10);
         Book book2 = new Book("Don Quixote", Category.NOVEL, author1, 15);
         Book book3 = new Book("Web Programming", Category.CLASSICS, author3, 500);
-        Book book4 = new Book("La Galatea", Category.CLASSICS, author1, 123);
-        Book book5 = new Book("The damned yard", Category.CLASSICS, author4, 12);
+        Book book4 = new Book("La Galatea", Category.BIOGRAPHY, author1, 123);
+        Book book5 = new Book("The damned yard", Category.THRILLER, author4, 12);
         Book book6 = new Book("The Tell-Tale Heart", Category.CLASSICS, author2, 42);
-        Book book7 = new Book("The Black Cat", Category.CLASSICS, author2, 0);
+        Book book7 = new Book("The Black Cat", Category.NOVEL, author2, 0);
 
         this.bookRepository.save(book1);
         this.bookRepository.save(book2);
